@@ -17,7 +17,7 @@ Before running the script, ensure you have Python3 installed on your system. Add
 You can install these dependencies using pip:
 
 ```shell
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Usage:
