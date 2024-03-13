@@ -4,7 +4,7 @@
 
 # FaceHarvester
 
-Face Harvester is a Python script designed to harvest AI-generated face images from [thispersondoesnotexist.com](https://thispersondoesnotexist.com/). It provides a simple command-line interface to specify the number of images to download, choose a user agent, and specify the output directory for downloaded images.
+FaceHarvester is a Python script designed to harvest AI-generated face images from [thispersondoesnotexist.com](https://thispersondoesnotexist.com/). It provides a simple command-line interface to specify the number of images to download, choose a user agent, and specify the output directory for downloaded images.
 
 ## Prerequisites:
 
