@@ -6,6 +6,7 @@ from tqdm import tqdm
 
 import argparse
 import requests
+import socks
 import toml
 import sys
 import os
@@ -16,14 +17,19 @@ YELLOW = '\033[93m'
 GREEN = '\033[92m'
 BLUE = '\033[94m'
 
-def download_faces_quiet(url, headers, count):
+def download_faces_quiet(url, headers, count, is_proxy):
     for i in range(count):
-        response = requests.get(url, headers=headers)
+        if is_proxy:
+            proxy_address = f'socks5://{is_proxy}'
+            proxy = {'https': proxy_address}
+            response = requests.get(url, headers=headers, proxies=proxy)
+        else:
+            response = requests.get(url, headers=headers)
         image_name = f'image{i}.jpeg'
         with open(image_name, 'wb') as f:
             f.write(response.content)
 
-def download_faces(url, headers, count):
+def download_faces(url, headers, count, is_proxy):
     print(f'''
     ▛▀▘        ▌ ▌               ▐
     ▙▄▝▀▖▞▀▖▞▀▖▙▄▌▝▀▖▙▀▖▌ ▌▞▀▖▞▀▘▜▀ ▞▀▖▙▀▖
@@ -32,12 +38,18 @@ def download_faces(url, headers, count):
     harvesting {GREEN}{count}{NO_COLOR} faces
     ''')
     for i in tqdm(range(count)):
+        if is_proxy:
+            proxy_address = f'socks5://{is_proxy}'
+            proxy = {'https': proxy_address}
+            response = requests.get(url, headers=headers, proxies=proxy)
+        else:
+            response = requests.get(url, headers=headers)
         response = requests.get(url, headers=headers)
         image_name = f'image{i}.jpeg'
         with open(image_name, 'wb') as f:
             f.write(response.content)
 
-def download_faces_verbose(url, headers, count):
+def download_faces_verbose(url, headers, count, is_proxy):
     print(f'''
     ▛▀▘        ▌ ▌               ▐
     ▙▄▝▀▖▞▀▖▞▀▖▙▄▌▝▀▖▙▀▖▌ ▌▞▀▖▞▀▘▜▀ ▞▀▖▙▀▖
@@ -47,8 +59,14 @@ def download_faces_verbose(url, headers, count):
     ''')
     pwd = os.getcwd()
     print(f'downloading to: {YELLOW}{pwd}{NO_COLOR}')
+
     for i in range(count):
-        response = requests.get(url, headers=headers)
+        if is_proxy:
+            proxy_address = f'socks5://{is_proxy}'
+            proxy = {'https': proxy_address}
+            response = requests.get(url, headers=headers, proxies=proxy)
+        else:
+            response = requests.get(url, headers=headers)
         image_name = f'image{i}.jpeg'
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
@@ -59,10 +77,12 @@ def download_faces_verbose(url, headers, count):
 def main():
     useragents = toml.load('useragents.toml')
     parser = argparse.ArgumentParser(prog='FaceHarvester.py', description='image harvester for ai generated faces')
-    parser.add_argument('-u', '--useragent', metavar='?', help='choose a useragent chrome / firefox / edge / safari')
-    parser.add_argument('-o', '--output', metavar='?', help='specify the output directory default is ./out')
     parser.add_argument('-v', '--verbose', action='store_true', help='be verbose')
-    parser.add_argument('-q', '--quiet', action='store_true', help='dont print any output to stdout')
+    parser.add_argument('-q', '--quiet', action='store_true', help='dont print any output to stdout')    
+    parser.add_argument('-o', '--output', metavar='[FILE]', help='specify the output directory, default is ./out')
+    parser.add_argument('-s', '--socks', metavar='[IP:PORT]', help='use a socks proxy, format ip:port')
+    parser.add_argument('-u', '--useragent', metavar='[USERAGENT]', help='choose a useragent chrome / firefox / edge / safari')
+
     required_args = parser.add_argument_group('required argument')
     required_args.add_argument('-c', '--count', type=int, metavar='?', help='how many pictures to download')
 
@@ -91,11 +111,11 @@ def main():
         os.chdir('./out')
 
     if args.verbose:
-        download_faces_verbose(DOWNLOAD_URL, headers, args.count)
+        download_faces_verbose(DOWNLOAD_URL, headers, args.count, args.socks)
     elif args.quiet:
-        download_faces_quiet(DOWNLOAD_URL, headers, args.count)
+        download_faces_quiet(DOWNLOAD_URL, headers, args.count, args.socks)
     else:
-        download_faces(DOWNLOAD_URL, headers, args.count)
+        download_faces(DOWNLOAD_URL, headers, args.count, args.socks)
 
 if __name__ == '__main__':
     main()                                                                                       
