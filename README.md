@@ -13,6 +13,7 @@ Before running the script, ensure you have Python3 installed on your system. Add
 >:warning: Note: This tool runs only on linux hosts and probably on macos (Not tested yet)
 
 - `requests`
+- `PySocks`
 - `toml`
 - `tqdm`
 
