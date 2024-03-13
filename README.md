@@ -10,6 +10,8 @@ Face Harvester is a Python script designed to harvest AI-generated face images f
 
 Before running the script, ensure you have Python3 installed on your system. Additionally, the following Python libraries are required:
 
+>:warning: Note: This tool runs only on linux hosts and probably on macos (Not tested yet)
+
 - `requests`
 - `toml`
 - `tqdm`
