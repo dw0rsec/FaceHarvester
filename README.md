@@ -49,6 +49,7 @@ python FaceHarvester.py -c <count> [-u <useragent>] [-o <output_directory>] [-v]
 - `-o, --output`: Specify the path to the storage directory for downloaded images. If not specified, the default is ./out.
 - `-v, --verbose`: Enable verbose mode, which displays more infos.
 - `-q, --quiet`: Enable quiet mode, which will not display any output.
+- `-s, --socks`: Use a socks proxy to download the files (tor not working!).
 
 ## Example:
 
