@@ -44,6 +44,15 @@ def download_faces(url, headers, count, is_proxy, useragent):
     print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')
     print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')
 
+    if is_proxy:
+        current_time = datetime.now()
+        current_time = current_time.strftime('%H:%M:%S')
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} socks proxy: {GREEN}true{DEFAULT} ({is_proxy})')
+    else:
+        current_time = datetime.now()
+        current_time = current_time.strftime('%H:%M:%S')
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} socks proxy: {ERROR}false{DEFAULT}')
+
     for i in range(count):
         if is_proxy:
             proxy_address = f'socks5://{is_proxy}'
@@ -57,6 +66,10 @@ def download_faces(url, headers, count, is_proxy, useragent):
         print(f'[{GREEN}*{DEFAULT}]{BLUE} {current_time}{DEFAULT} download: {GREEN}{image_name}{DEFAULT}')
         with open(image_name, 'wb') as f:
             f.write(response.content)
+
+    current_time = datetime.now()
+    current_time = current_time.strftime('%H:%M:%S')
+    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} download: {YELLOW}download completed{DEFAULT}')
 
 def main():
     useragents = toml.load('useragents.toml')
