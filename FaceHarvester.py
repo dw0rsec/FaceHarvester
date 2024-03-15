@@ -113,25 +113,25 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}keyboard interrupt, exit{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.HTTPError as error_http:
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}{error_http}{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.ConnectionError:
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}network connection error{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}a connection error occurred{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.Timeout:
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}network connection timeout{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.RequestException as error:
         current_time = datetime.now()
         current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}{error}{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')
         sys.exit(1)
