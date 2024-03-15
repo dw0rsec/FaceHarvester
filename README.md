@@ -48,7 +48,7 @@ cd FaceHarvester
 3. Run the script with the desired options:
 
 ```shell
-python FaceHarvester.py -c <count> [-u <useragent>] [-o <output_directory>] [-v] [-q]
+python FaceHarvester.py -c <count> [-u <useragent>] [-o <output_directory>] [-q]
 ```
 
 - `-c, --count`: Specify the number of pictures to download (required).
