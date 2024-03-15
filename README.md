@@ -17,7 +17,14 @@ Before running the script, ensure you have Python3 installed on your system. Add
 - `toml`
 - `tqdm`
 
-You can install these dependencies using pip:
+If you are on a debian based environment, you can install the dependencies with `apt`:
+
+```shell
+# requests should be installed by default
+sudo apt update && sudo apt install -y python3-socks python3-toml python3-tqdm
+```
+
+Otherwise you can use `pip`:
 
 ```shell
 pip install -r requirements.txt
