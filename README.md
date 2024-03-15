@@ -15,13 +15,12 @@ Before running the script, ensure you have Python3 installed on your system. Add
 - `requests`
 - `PySocks`
 - `toml`
-- `tqdm`
 
 If you are on a debian based environment, you can install the dependencies with `apt`:
 
 ```shell
 # requests should be installed by default
-sudo apt update && sudo apt install -y python3-socks python3-toml python3-tqdm
+sudo apt update && sudo apt install -y python3-socks python3-toml
 ```
 
 Otherwise you can use `pip`:
@@ -55,7 +54,6 @@ python FaceHarvester.py -c <count> [-u <useragent>] [-o <output_directory>] [-v]
 - `-c, --count`: Specify the number of pictures to download (required).
 - `-u, --useragent`: Choose a user agent (chrome, firefox, edge, or safari). Default is chrome.
 - `-o, --output`: Specify the path to the storage directory for downloaded images. If not specified, the default is ./out.
-- `-v, --verbose`: Enable verbose mode, which displays more infos.
 - `-q, --quiet`: Enable quiet mode, which will not display any output.
 - `-s, --socks`: Use a socks proxy to download the files (tor not working!).
 
@@ -64,7 +62,7 @@ python FaceHarvester.py -c <count> [-u <useragent>] [-o <output_directory>] [-v]
 To download 10 images using Firefox user agent and store them in the images directory:
 
 ```shell
-python3 FaceHarvester.py -c 10 -u firefox -v -o images
+python3 FaceHarvester.py -c 10 -u firefox -o images
 ```
 
 ## License:

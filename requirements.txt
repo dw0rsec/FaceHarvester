@@ -4,5 +4,4 @@ idna==3.6
 PySocks==1.7.1
 requests==2.31.0
 toml==0.10.2
-tqdm==4.66.2
 urllib3==2.2.1
