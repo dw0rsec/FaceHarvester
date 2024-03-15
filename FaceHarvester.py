@@ -39,19 +39,13 @@ def download_faces(url, headers, count, is_proxy, useragent):
     harvesting {PURPLE}{count}{DEFAULT} faces
     ''')
     pwd = os.getcwd()
-    current_time = datetime.now()
-    current_time = current_time.strftime('%H:%M:%S')
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')
+    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')
+    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')
 
     if is_proxy:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} socks proxy: {GREEN}true{DEFAULT} ({is_proxy})')
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {GREEN}true{DEFAULT} ({is_proxy})')
     else:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} socks proxy: {ERROR}false{DEFAULT}')
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {ERROR}false{DEFAULT}')
 
     for i in range(count):
         if is_proxy:
@@ -61,15 +55,16 @@ def download_faces(url, headers, count, is_proxy, useragent):
         else:
             response = requests.get(url, headers=headers, timeout=20)
         image_name = f'image{i}.jpeg'
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{GREEN}*{DEFAULT}]{BLUE} {current_time}{DEFAULT} download: {GREEN}{image_name}{DEFAULT}')
+        print(f'[{GREEN}*{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {GREEN}{image_name}{DEFAULT}')
         with open(image_name, 'wb') as f:
             f.write(response.content)
 
+    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {YELLOW}download completed{DEFAULT}')
+
+def get_current_time():
     current_time = datetime.now()
     current_time = current_time.strftime('%H:%M:%S')
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} download: {YELLOW}download completed{DEFAULT}')
+    return current_time
 
 def main():
     useragents = toml.load('useragents.toml')
@@ -124,27 +119,17 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.HTTPError as error_http:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.ConnectionError:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}a connection error occurred{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}a connection error occurred{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.Timeout:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.RequestException as error:
-        current_time = datetime.now()
-        current_time = current_time.strftime('%H:%M:%S')
-        print(f'[{RED}!{DEFAULT}]{BLUE} {current_time}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')
         sys.exit(1)
