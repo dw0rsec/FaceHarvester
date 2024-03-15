@@ -121,7 +121,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')
         sys.exit(1)
-    except requests.exceptions.HTTPError as error_http:
+    except requests.exceptions.HTTPError:
         print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')
         sys.exit(1)
     except requests.exceptions.ConnectionError:
@@ -130,6 +130,6 @@ if __name__ == '__main__':
     except requests.exceptions.Timeout:
         print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')
         sys.exit(1)
-    except requests.exceptions.RequestException as error:
+    except requests.exceptions.RequestException:
         print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')
         sys.exit(1)
