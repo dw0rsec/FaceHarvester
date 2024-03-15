@@ -12,6 +12,7 @@ import os
 DOWNLOAD_URL = 'https://thispersondoesnotexist.com/'
 DEFAULT = '\033[0m'
 YELLOW = '\033[93m'
+PURPLE = '\033[35m'
 ERROR = '\033[91m'
 GREEN = '\033[92m'
 BLUE = '\033[94m'
@@ -29,18 +30,19 @@ def download_faces_quiet(url, headers, count, is_proxy):
         with open(image_name, 'wb') as f:
             f.write(response.content)
 
-def download_faces(url, headers, count, is_proxy):
+def download_faces(url, headers, count, is_proxy, useragent):
     print(f'''
     ▛▀▘        ▌ ▌               ▐
     ▙▄▝▀▖▞▀▖▞▀▖▙▄▌▝▀▖▙▀▖▌ ▌▞▀▖▞▀▘▜▀ ▞▀▖▙▀▖
     ▌ ▞▀▌▌ ▖▛▀ ▌ ▌▞▀▌▌  ▐▐ ▛▀ ▝▀▖▐ ▖▛▀ ▌
     ▘ ▝▀▘▝▀ ▝▀▘▘ ▘▝▀▘▘   ▘ ▝▀▘▀▀  ▀ ▝▀▘▘
-    harvesting {GREEN}{count}{DEFAULT} faces
+    harvesting {PURPLE}{count}{DEFAULT} faces
     ''')
     pwd = os.getcwd()
     current_time = datetime.now()
     current_time = current_time.strftime('%H:%M:%S')
     print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')
+    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {current_time}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')
 
     for i in range(count):
         if is_proxy:
@@ -75,8 +77,17 @@ def main():
 
     if args.useragent:
         useragent_string = useragents[args.useragent]
+        if args.useragent == 'chrome':
+            useragent = 'Google Chrome'
+        elif args.useragent == 'firefox':
+            useragent = 'Mozilla Firefox'
+        elif args.useragent == 'edge':
+            useragent = 'Microsoft Edge'
+        elif args.useragent == 'safari':
+            useragent = 'Apple Safari'
     else:
         useragent_string = useragents['chrome']
+        useragent = 'Google Chrome (default)'
 
     headers = {
         'User-Agent': useragent_string,
@@ -94,7 +105,7 @@ def main():
     if args.quiet:
         download_faces_quiet(DOWNLOAD_URL, headers, args.count, args.socks)
     else:
-        download_faces(DOWNLOAD_URL, headers, args.count, args.socks)
+        download_faces(DOWNLOAD_URL, headers, args.count, args.socks, useragent)
 
 if __name__ == '__main__':
     try:
