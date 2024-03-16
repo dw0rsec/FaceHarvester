@@ -36,16 +36,16 @@ def download_faces(url, headers, count, is_proxy, useragent):
     ▙▄▝▀▖▞▀▖▞▀▖▙▄▌▝▀▖▙▀▖▌ ▌▞▀▖▞▀▘▜▀ ▞▀▖▙▀▖
     ▌ ▞▀▌▌ ▖▛▀ ▌ ▌▞▀▌▌  ▐▐ ▛▀ ▝▀▖▐ ▖▛▀ ▌
     ▘ ▝▀▘▝▀ ▝▀▘▘ ▘▝▀▘▘   ▘ ▝▀▘▀▀  ▀ ▝▀▘▘
-    harvesting {PURPLE}{count}{DEFAULT} faces
+    harvesting {PURPLE}{count}{DEFAULT} faces            v1.0
     ''')
     pwd = os.getcwd()
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')
+    message('info_directory', pwd, None, None ,None)
+    message('info_useragent', None, useragent, None ,None)
 
     if is_proxy:
-        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {GREEN}true{DEFAULT} ({is_proxy})')
+        message('info_proxy_true', None, None, is_proxy ,None)
     else:
-        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {ERROR}false{DEFAULT}')
+        message('info_proxy_false', None, None, None ,None)
 
     for i in range(count):
         if is_proxy:
@@ -55,16 +55,40 @@ def download_faces(url, headers, count, is_proxy, useragent):
         else:
             response = requests.get(url, headers=headers, timeout=20)
         image_name = f'image{i}.jpeg'
-        print(f'[{GREEN}*{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {GREEN}{image_name}{DEFAULT}')
+        message('info_download', None, None, None ,image_name)
         with open(image_name, 'wb') as f:
             f.write(response.content)
 
-    print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {YELLOW}download completed{DEFAULT}')
+    message('complete', None, None, None ,None)
 
 def get_current_time():
     current_time = datetime.now()
     current_time = current_time.strftime('%H:%M:%S')
     return current_time
+
+def message(message_type, pwd, useragent, is_proxy, image_name):
+    if message_type == 'info_directory':
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} directory: {YELLOW}{pwd}{DEFAULT}')  # Info directory
+    elif message_type == 'info_useragent':
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} useragent: {YELLOW}{useragent}{DEFAULT}')  # Info useragent
+    elif message_type == 'info_proxy_true':
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {GREEN}true{DEFAULT} ({is_proxy})')  # Info proxy true
+    elif message_type == 'info_proxy_false':
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} socks proxy: {ERROR}false{DEFAULT}')  # Info proxy false
+    elif message_type == 'info_download':
+        print(f'[{GREEN}*{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {GREEN}{image_name}{DEFAULT}')  # Info download
+    elif message_type == 'complete':
+        print(f'[{YELLOW}i{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} download: {YELLOW}download completed{DEFAULT}')  # Info download complete
+    elif message_type == 'KeyboardInterrupt':
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')  # Error KeyboardInterrupt
+    elif message_type == 'HTTPError':
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')  # Error HTTPError
+    elif message_type == 'ConnectionError':
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}a connection error occurred{DEFAULT}')  # Error ConnectionError
+    elif message_type == 'Timeout':
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')  # Error Timeout
+    elif message_type == 'RequestException':
+        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')  # Error RequestException
 
 def main():
     useragents = toml.load('useragents.toml')
@@ -119,17 +143,17 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}program interrupted by user{DEFAULT}')
+        message('KeyboardInterrupt', None, None, None ,None)
         sys.exit(1)
     except requests.exceptions.HTTPError:
-        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an http error occurred{DEFAULT}')
+        message('HTTPError', None, None, None ,None)
         sys.exit(1)
     except requests.exceptions.ConnectionError:
-        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}a connection error occurred{DEFAULT}')
+        message('ConnectionError', None, None, None ,None)
         sys.exit(1)
     except requests.exceptions.Timeout:
-        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}the request timed out{DEFAULT}')
+        message('Timeout', None, None, None ,None)
         sys.exit(1)
     except requests.exceptions.RequestException:
-        print(f'[{RED}!{DEFAULT}]{BLUE} {get_current_time()}{DEFAULT} error: {ERROR}an ambiguous exception occurred while handling your request{DEFAULT}')
+        message('RequestException', None, None, None ,None)
         sys.exit(1)
